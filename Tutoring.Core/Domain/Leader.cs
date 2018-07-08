@@ -21,25 +21,32 @@ namespace Tutoring.Core.Domain
             set { _tutorings = new HashSet<Tutoring>(value); }
         }
 
+        protected Leader()
+        {
+        }
+
         public Leader(User user)
         {
             UserId = user.Id;
             Name = user.Username;
         }
-        public void AddTutoring(string title, int size, Field field, Level level, string description, string city)
+        public void AddTutoring(string title, int size, string field, string level, string description, string city)
         {
-            var tutoring = Tutorings.SingleOrDefault(x => x.Title == title);
+            var tutoring = Tutorings.SingleOrDefault(x => x.Details.Title == title);
             if (tutoring != null)
             {
                 throw new Exception($"Tutoring with title: '{title}' already exists.");
             }
-            _tutorings.Add(new Tutoring(title,size,field,level,description,city));
+
+            tutoring.SetDetails(Details.Create(title, size, field, level, description, city));
+
+            _tutorings.Add(tutoring);
             UpdatedAt = DateTime.UtcNow;
         }
 
         public void DeleteTutoring(string title)
         {
-            var tutoring = Tutorings.SingleOrDefault(x => x.Title == title);
+            var tutoring = Tutorings.SingleOrDefault(x => x.Details.Title == title);
             if (tutoring == null)
             {
                 throw new Exception($"Tutoring named: '{title}' for driver: '{Name}' was not found.");

@@ -20,6 +20,9 @@ namespace Tutoring.Core.Domain
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
 
+        protected User()
+        {
+        }
 
         public User(Guid userId, string email, string username,
             string password, string salt, string city)

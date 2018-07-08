@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tutoring.Core.Repositories;
+using Tutoring.Infrastructure.Mappers;
 using Tutoring.Infrastructure.Repositories;
 using Tutoring.Infrastructure.Services;
 
@@ -22,6 +23,7 @@ namespace Tutoring.Api
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, InMemoryUserRepository>();
+            services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddMvc();
         }
 
