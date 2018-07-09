@@ -23,6 +23,8 @@ namespace Tutoring.Api
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, InMemoryUserRepository>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<ICourseRepository, InMemoryCourseRepository>();
             services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddMvc();
         }

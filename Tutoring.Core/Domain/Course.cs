@@ -4,20 +4,26 @@ using System.Linq;
 
 namespace Tutoring.Core.Domain
 {
-    public class Tutoring
+    public class Course
     {
         private ISet<Participant> _participants = new HashSet<Participant>();
         public Guid Id { get; protected set; }
         public Details Details { get; protected set; }
+        public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
+
         public IEnumerable<Participant> Participants
         {
           get  { return _participants; }
           set  { _participants = new HashSet<Participant>(value); }
         }
+  
 
-        protected Tutoring()
+        public Course(Details details)
         {
+            SetDetails(details);
+            Id = Guid.NewGuid();
+            CreatedAt = DateTime.UtcNow;
         }
 
         public void SetDetails(Details details)
@@ -33,7 +39,7 @@ namespace Tutoring.Core.Domain
             {
                 throw new InvalidOperationException($"Participant already exists: '{participant.UserId}'.");
             }
-            _participants.Add(participant);
+            _participants.Add(p);
         }
 
         private Participant GetParticipant(Participant participant)

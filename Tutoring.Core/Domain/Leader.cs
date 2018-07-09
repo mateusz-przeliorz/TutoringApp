@@ -9,16 +9,16 @@ namespace Tutoring.Core.Domain
 {
     public class Leader
     {
-        private ISet<Tutoring> _tutorings = new HashSet<Tutoring>();
+        private ISet<Course> _tutorings = new HashSet<Course>();
 
         public Guid UserId { get; protected set; }
         public string Name { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public IEnumerable<Tutoring> Tutorings
+        public IEnumerable<Course> Tutorings
         {
             get { return _tutorings; }
-            set { _tutorings = new HashSet<Tutoring>(value); }
+            set { _tutorings = new HashSet<Course>(value); }
         }
 
         protected Leader()

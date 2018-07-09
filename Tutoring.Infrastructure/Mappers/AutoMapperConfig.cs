@@ -15,6 +15,7 @@ namespace Tutoring.Infrastructure.Mappers
             {
                 cfg.CreateMap<User, UserDto>();
                 cfg.CreateMap<Leader, LeaderDto>();
+                cfg.CreateMap<Course, CourseDto>();
             })
             .CreateMapper();
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System;
+using System.Threading.Tasks;
 using Tutoring.Core.Domain;
 using Tutoring.Core.Repositories;
 using Tutoring.Infrastructure.Dtos;
@@ -17,22 +18,22 @@ namespace Tutoring.Infrastructure.Services
             _mapper = mapper;
         }
 
-        public UserDto GetByEmail(string email)
+        public async Task<UserDto> GetAsync(string email)
         {
-            User user = _userRepository.GetByEmail(email);
+            User user = await _userRepository.GetAsync(email);
             return _mapper.Map<User, UserDto>(user);
         }
 
-        public void Register(Guid userId, string email, string username, string password, string city)
+        public async Task RegisterAsync(Guid userId, string email, string username, string password, string city)
         {
-            User user = _userRepository.GetByEmail(email);
+            User user = await _userRepository.GetAsync(email);
             
             if (user != null)
             {
                 throw new Exception($"User with email: '{email}' already exists.");
             }
 
-            user = _userRepository.GetByUsername(username);
+            user = await _userRepository.GetByNameAsync(username);
 
             if (user != null)
             {
@@ -41,7 +42,7 @@ namespace Tutoring.Infrastructure.Services
 
             string salt = Guid.NewGuid().ToString("N");
             user = new User(userId, email, username, password, salt, city);
-            _userRepository.Add(user);
+            await _userRepository.AddAsync(user);
         }
     }
 }
