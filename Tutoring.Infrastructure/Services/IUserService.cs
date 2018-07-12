@@ -6,7 +6,7 @@ namespace Tutoring.Infrastructure.Services
 {
     public interface IUserService
     {
-        Task RegisterAsync(Guid userId, string email, string username, string password, string city);
+        Task RegisterAsync(string email, string username, string password, string city);
         Task<UserDto> GetAsync(string email);
     }
 }

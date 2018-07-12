@@ -24,7 +24,7 @@ namespace Tutoring.Infrastructure.Services
             return _mapper.Map<User, UserDto>(user);
         }
 
-        public async Task RegisterAsync(Guid userId, string email, string username, string password, string city)
+        public async Task RegisterAsync(string email, string username, string password, string city)
         {
             User user = await _userRepository.GetAsync(email);
             
@@ -41,7 +41,7 @@ namespace Tutoring.Infrastructure.Services
             }
 
             string salt = Guid.NewGuid().ToString("N");
-            user = new User(userId, email, username, password, salt, city);
+            user = new User(email, username, password, salt, city);
             await _userRepository.AddAsync(user);
         }
     }

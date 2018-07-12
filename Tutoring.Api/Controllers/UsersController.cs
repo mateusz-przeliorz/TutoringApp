@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Tutoring.Core.Domain;
-using Tutoring.Infrastructure.Dtos;
+using Tutoring.Infrastructure.Commands.Users;
 using Tutoring.Infrastructure.Services;
 
 namespace Tutoring.Api.Controllers
@@ -20,9 +16,23 @@ namespace Tutoring.Api.Controllers
         }
 
         [HttpGet("{email}")]
-        public async Task<UserDto> GetAsync(string email)
+        public async Task<IActionResult> GetAsync(string email)
         {
-          return await _userService.GetAsync(email);
+            var user = await _userService.GetAsync(email);
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            return Json(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]CreateUser request)
+        {
+            await _userService.RegisterAsync(request.Email, request.Username, request.Password, request.City);
+
+            return Created($"api/users/{request.Email}", new object());
         }
     }
 }
