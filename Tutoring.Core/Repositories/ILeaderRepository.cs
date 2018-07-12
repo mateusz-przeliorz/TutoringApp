@@ -6,7 +6,7 @@ using Tutoring.Core.Domain;
 
 namespace Tutoring.Core.Repositories
 {
-    public interface ILeaderRepository
+    public interface ILeaderRepository : IRepository
     {
         Task<Leader> GetAsync(Guid userId);
         Task<IEnumerable<Leader>> GetAllAsync();

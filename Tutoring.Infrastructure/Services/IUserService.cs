@@ -4,7 +4,7 @@ using Tutoring.Infrastructure.Dtos;
 
 namespace Tutoring.Infrastructure.Services
 {
-    public interface IUserService
+    public interface IUserService : IService
     {
         Task RegisterAsync(string email, string username, string password, string city);
         Task<UserDto> GetAsync(string email);

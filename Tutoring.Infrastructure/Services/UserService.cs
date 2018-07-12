@@ -21,6 +21,7 @@ namespace Tutoring.Infrastructure.Services
         public async Task<UserDto> GetAsync(string email)
         {
             User user = await _userRepository.GetAsync(email);
+            Console.WriteLine("Lol");
             return _mapper.Map<User, UserDto>(user);
         }
 

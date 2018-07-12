@@ -7,7 +7,7 @@ using Tutoring.Infrastructure.Dtos;
 
 namespace Tutoring.Infrastructure.Services
 {
-    public interface ICourseService
+    public interface ICourseService : IService
     {
         Task<IEnumerable<CourseDto>> GetAllAsync();
         Task<CourseDto> GetAsync(Guid id);

@@ -3,15 +3,19 @@ using System.Threading.Tasks;
 using Tutoring.Infrastructure.Commands;
 using Tutoring.Infrastructure.Commands.Users;
 using Tutoring.Infrastructure.Services;
+using Tutoring.Infrastructure.Settings;
 
 namespace Tutoring.Api.Controllers
 {
     public class UsersController : ApiBaseController
     {
+        private readonly UserSettings _settings;
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, ICommandDispatcher commandDispatcher) : base(commandDispatcher)
+        public UsersController(IUserService userService, ICommandDispatcher commandDispatcher,
+            UserSettings settings) : base(commandDispatcher)
         {
+            _settings = settings;
             _userService = userService;
         }
 

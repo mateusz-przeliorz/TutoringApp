@@ -9,11 +9,11 @@ using Tutoring.Infrastructure.Handlers.Users;
 
 namespace Tutoring.Infrastructure.IoC.Modules
 {
-    public class CommandModules : Autofac.Module
+    public class CommandModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            var assembly = typeof(CommandModules)
+            var assembly = typeof(CommandModule)
                             .GetTypeInfo()
                             .Assembly;
 
@@ -22,8 +22,8 @@ namespace Tutoring.Infrastructure.IoC.Modules
                    .InstancePerLifetimeScope();
 
             builder.RegisterType<CommandDispatcher>()
-                    .As<ICommandDispatcher>().
-                    InstancePerLifetimeScope();
+                    .As<ICommandDispatcher>()
+                    .InstancePerLifetimeScope();
         }
     }
 }

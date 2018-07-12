@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using Tutoring.Core.Repositories;
-using Tutoring.Infrastructure.IoC.Modules;
+using Tutoring.Infrastructure.IoC;
 using Tutoring.Infrastructure.Mappers;
 using Tutoring.Infrastructure.Repositories;
 using Tutoring.Infrastructure.Services;
@@ -27,16 +27,11 @@ namespace Tutoring.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRepository, InMemoryUserRepository>();
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<ICourseRepository, InMemoryCourseRepository>();
-            services.AddSingleton(AutoMapperConfig.Initialize());
             services.AddMvc();
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
-            builder.RegisterModule<CommandModules>();
+            builder.RegisterModule(new ContainerModule(Configuration));
             ApplicationContainer = builder.Build();
                 
             return new AutofacServiceProvider(ApplicationContainer);
