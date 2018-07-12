@@ -29,7 +29,7 @@ namespace Tutoring.Tests.Services
             var mapperMock = new Mock<IMapper>();
             var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
             await userService.GetAsync("user1@email.com");
-            var user = new User("user1@email.com", "user1", "secret", "salt", "Wroclaw");
+            var user = new User("user1@email.com", "user1", "secret", "Wroclaw");
 
             userRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(user);
             userRepositoryMock.Verify(x => x.GetAsync(It.IsAny<string>()), Times.Once);

@@ -18,16 +18,22 @@ namespace Tutoring.Infrastructure.Services
             _mapper = mapper;
         }
 
+        public async Task ChangeUserPasswordAsync(string email, string newPassword)
+        {
+            var user = await _userRepository.GetAsync(email);
+            user.SetPassword(newPassword);
+            await _userRepository.UpdateAsync(user);
+        }
+
         public async Task<UserDto> GetAsync(string email)
         {
-            User user = await _userRepository.GetAsync(email);
-            Console.WriteLine("Lol");
+            var user = await _userRepository.GetAsync(email);
             return _mapper.Map<User, UserDto>(user);
         }
 
         public async Task RegisterAsync(string email, string username, string password, string city)
         {
-            User user = await _userRepository.GetAsync(email);
+            var user = await _userRepository.GetAsync(email);
             
             if (user != null)
             {
@@ -42,7 +48,7 @@ namespace Tutoring.Infrastructure.Services
             }
 
             string salt = Guid.NewGuid().ToString("N");
-            user = new User(email, username, password, salt, city);
+            user = new User(email, username, password, city);
             await _userRepository.AddAsync(user);
         }
     }

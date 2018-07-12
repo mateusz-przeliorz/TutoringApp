@@ -11,9 +11,9 @@ namespace Tutoring.Infrastructure.Repositories
     {
         private static ISet<User> _users = new HashSet<User>()
         {
-            new User("email2@email.com","user1","qwe123","salt","Wroclaw"),
-            new User("email3@email.com","user2","qwe123","salt","Wroclaw"),
-            new User("email4@email.com","user3","qwe123","salt","Wroclaw")
+            new User("email2@email.com","user1","qwe123","Wroclaw"),
+            new User("email3@email.com","user2","qwe123","Wroclaw"),
+            new User("email4@email.com","user3","qwe123","Wroclaw")
         };
        
         public async Task AddAsync(User user)
@@ -44,14 +44,17 @@ namespace Tutoring.Infrastructure.Repositories
 
         public async Task RemoveAsync(Guid id)
         {
-            User user = await GetAsync(id);
+            var user = await GetAsync(id);
             _users.Remove(user);
             await Task.CompletedTask;
         }
 
         public async Task UpdateAsync(User user)
         {
+            var changedUser = await GetAsync(user.Id);
+            changedUser = user;
             await Task.CompletedTask;
         }
+       
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Tutoring.Core.Domain
@@ -13,10 +10,9 @@ namespace Tutoring.Core.Domain
         public Guid Id { get; protected set; }
         public string Email { get; protected set; }
         public string Password { get; protected set; }
-        public string Salt { get; protected set; }
         public string FullName { get; protected set; }
         public string Username { get; protected set; }
-        public string City { get; set; }
+        public string City { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
 
@@ -25,12 +21,12 @@ namespace Tutoring.Core.Domain
         }
 
         public User(string email, string username,
-            string password, string salt, string city)
+            string password, string city)
         {
             Id = Guid.NewGuid();
             SetEmail(email);
             SetUsername(username);
-            SetPassword(password, salt);
+            SetPassword(password);
             CreatedAt = DateTime.UtcNow;
             City = city;
         }
@@ -72,17 +68,12 @@ namespace Tutoring.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void SetPassword(string password, string salt)
+        public void SetPassword(string password)
         {
             if (string.IsNullOrWhiteSpace(password))
             {
                 throw new Exception("Password can not be empty.");
-            }
-
-            if (string.IsNullOrWhiteSpace(salt))
-            {
-                throw new Exception("Salt can not be empty.");
-            }
+            }  
 
             if (password.Length < 4)
             {
@@ -100,7 +91,6 @@ namespace Tutoring.Core.Domain
             }
 
             Password = password;
-            Salt = salt;
             UpdatedAt = DateTime.UtcNow;
         }
     }
