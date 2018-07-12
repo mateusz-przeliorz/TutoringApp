@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Tutoring.Infrastructure.Commands;
 using Tutoring.Infrastructure.Commands.Users;
 using Tutoring.Infrastructure.Services;
 
 namespace Tutoring.Api.Controllers
 {
-    [Route("api/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ApiBaseController
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, ICommandDispatcher commandDispatcher) : base(commandDispatcher)
         {
             _userService = userService;
         }
@@ -23,16 +23,14 @@ namespace Tutoring.Api.Controllers
             {
                 return NotFound();
             }
-
             return Json(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CreateUser request)
+        public async Task<IActionResult> Post([FromBody]CreateUser command)
         {
-            await _userService.RegisterAsync(request.Email, request.Username, request.Password, request.City);
-
-            return Created($"api/users/{request.Email}", new object());
+            await CommandDispatcher.DispatchAsync(command);
+            return Created($"api/users/{command.Email}", new object());
         }
     }
 }

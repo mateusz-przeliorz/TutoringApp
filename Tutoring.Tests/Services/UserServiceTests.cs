@@ -16,40 +16,35 @@ namespace Tutoring.Tests.Services
         {
             var userRepositoryMock = new Mock<IUserRepository>();
             var mapperMock = new Mock<IMapper>();
-
             var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
             await userService.RegisterAsync("user@email.com", "user", "secret","Wroclaw");
 
             userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
         }
 
-        //[Fact]
-        //public async Task when_calling_get_async_and_user_exists()
-        //{
-        //    var userRepositoryMock = new Mock<IUserRepository>();
-        //    var mapperMock = new Mock<IMapper>();
+        [Fact]
+        public async Task when_calling_get_async_and_user_exists()
+        {
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var mapperMock = new Mock<IMapper>();
+            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+            await userService.GetAsync("user1@email.com");
+            var user = new User("user1@email.com", "user1", "secret", "salt", "Wroclaw");
 
-        //    var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
-        //    await userService.GetAsync("user1@email.com");
+            userRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(user);
+            userRepositoryMock.Verify(x => x.GetAsync(It.IsAny<string>()), Times.Once);
+        }
 
-        //    var user = new User("user1@email.com");
+        [Fact]
+        public async Task when_calling_get_async_and_user_does_not_exists()
+        {
+            var userRepositoryMock = new Mock<IUserRepository>();
+            var mapperMock = new Mock<IMapper>();
+            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
+            await userService.GetAsync("user@email.com");
 
-        //    userRepositoryMock
-        //    .Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(user);
-        //}
-
-        //[Fact]
-        //public async Task when_calling_get_async_and_user_does_not_exists()
-        //{
-        //    var userRepositoryMock = new Mock<IUserRepository>();
-        //    var mapperMock = new Mock<IMapper>();
-
-        //    var userService = new UserService(userRepositoryMock.Object, mapperMock.Object);
-        //    await userService.GetAsync("user@email.com");
-
-        //    userRepositoryMock
-        //    .Setup(x => x.GetAsync("user@email.com"))
-        //    .ReturnsAsync(() => null);
-        //}
+            userRepositoryMock.Setup(x => x.GetAsync("user@email.com")).ReturnsAsync(() => null);
+            userRepositoryMock.Verify(x => x.GetAsync(It.IsAny<string>()), Times.Once());
+        }
     }
 }
