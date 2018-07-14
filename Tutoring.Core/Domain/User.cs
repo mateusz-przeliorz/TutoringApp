@@ -10,9 +10,11 @@ namespace Tutoring.Core.Domain
         public Guid Id { get; protected set; }
         public string Email { get; protected set; }
         public string Password { get; protected set; }
+        public string Salt { get; protected set; }
         public string FullName { get; protected set; }
         public string Username { get; protected set; }
         public string City { get; protected set; }
+        public string Role { get; protected set; }
         public DateTime CreatedAt { get; protected set; }
         public DateTime UpdatedAt { get; protected set; }
 
@@ -21,12 +23,13 @@ namespace Tutoring.Core.Domain
         }
 
         public User(string email, string username,
-            string password, string city)
+            string password, string salt, string city)
         {
             Id = Guid.NewGuid();
             SetEmail(email);
             SetUsername(username);
             SetPassword(password);
+            Salt = salt;
             CreatedAt = DateTime.UtcNow;
             City = city;
         }

@@ -1,16 +1,16 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
-using Tutoring.Core.Repositories;
+using System.Text;
 using Tutoring.Infrastructure.IoC;
-using Tutoring.Infrastructure.Mappers;
-using Tutoring.Infrastructure.Repositories;
-using Tutoring.Infrastructure.Services;
+using Tutoring.Infrastructure.Settings;
 
 namespace Tutoring.Api
 {
@@ -23,11 +23,28 @@ namespace Tutoring.Api
 
         public IConfiguration Configuration { get; }
         public IContainer ApplicationContainer { get; private set; }
+        //private readonly JwtSettings _jwtSettings;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = Configuration.GetSection("Jwt:Issuer").Value,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Value))
+            };
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = tokenValidationParameters;
+            });
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -46,6 +63,7 @@ namespace Tutoring.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());
         }

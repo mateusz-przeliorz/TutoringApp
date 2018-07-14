@@ -10,5 +10,6 @@ namespace Tutoring.Infrastructure.Commands.Users
         public string Password { get; set; }
         public string Username { get; set; }
         public string City { get; set; }
+        public string Role { get; set; }
     }
 }

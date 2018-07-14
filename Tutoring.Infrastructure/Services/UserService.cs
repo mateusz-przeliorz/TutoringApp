@@ -11,11 +11,13 @@ namespace Tutoring.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IEncrypter _encrypter;
 
-        public UserService(IUserRepository userRepository, IMapper mapper)
+        public UserService(IUserRepository userRepository, IMapper mapper, IEncrypter encrypter)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _encrypter = encrypter;
         }
 
         public async Task ChangeUserPasswordAsync(string email, string newPassword)
@@ -29,6 +31,25 @@ namespace Tutoring.Infrastructure.Services
         {
             var user = await _userRepository.GetAsync(email);
             return _mapper.Map<User, UserDto>(user);
+        }
+
+        public async Task LoginAsync(string email, string password)
+        {
+            var user = await _userRepository.GetAsync(email);
+            if (user == null)
+            {
+                throw new Exception("Invalid credentials");
+            }
+
+            var salt = _encrypter.GetSalt(password);
+            var hash = _encrypter.GetHash(password, salt);
+
+            if(user.Password == hash)
+            {
+                return;
+            }
+
+            throw new Exception("Invalid credentials");
         }
 
         public async Task RegisterAsync(string email, string username, string password, string city)
@@ -47,8 +68,9 @@ namespace Tutoring.Infrastructure.Services
                 throw new Exception($"User with username: '{username}' already exists.");
             }
 
-            string salt = Guid.NewGuid().ToString("N");
-            user = new User(email, username, password, city);
+            var salt = _encrypter.GetSalt(password);
+            var hash = _encrypter.GetHash(password, salt);
+            user = new User(email, username, hash, salt, city);
             await _userRepository.AddAsync(user);
         }
     }

@@ -24,7 +24,7 @@ namespace Tutoring.Tests.EndToEnd.Controllers
             };
 
             var payload = GetPayload(request);
-            var response = await Client.PutAsync("api/accounts", payload);
+            var response = await Client.PutAsync("api/account", payload);
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
             response.Headers.Location.ToString().Should().BeEquivalentTo($"api/accounts/{request.Email}");
         }
@@ -43,7 +43,7 @@ namespace Tutoring.Tests.EndToEnd.Controllers
             };
 
             var payload = GetPayload(request);
-            var response = await Client.PutAsync("api/accounts", payload);
+            var response = await Client.PutAsync("api/account", payload);
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
         }
 
@@ -59,7 +59,7 @@ namespace Tutoring.Tests.EndToEnd.Controllers
             };
 
             var payload = GetPayload(request);
-            var response = await Client.PutAsync("api/accounts", payload);
+            var response = await Client.PutAsync("api/account", payload);
             response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
 
             response = await Client.GetAsync($"api/users/{email}");

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Tutoring.Infrastructure.Commands;
 using Tutoring.Infrastructure.Commands.Users;
@@ -19,6 +20,7 @@ namespace Tutoring.Api.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet("{email}")]
         public async Task<IActionResult> GetAsync(string email)
         {

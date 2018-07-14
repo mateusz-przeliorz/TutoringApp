@@ -18,6 +18,9 @@ namespace Tutoring.Infrastructure.IoC.Modules
         {
             builder.RegisterInstance(_configuration.GetSettings<UserSettings>())
                                         .SingleInstance();
+
+            builder.RegisterInstance(_configuration.GetSettings<JwtSettings>())
+                                       .SingleInstance();
         }
     }
 }
