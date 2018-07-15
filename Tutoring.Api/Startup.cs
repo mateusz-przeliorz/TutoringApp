@@ -10,7 +10,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
 using Tutoring.Infrastructure.IoC;
-using Tutoring.Infrastructure.Settings;
 
 namespace Tutoring.Api
 {
@@ -28,23 +27,22 @@ namespace Tutoring.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
 
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidIssuer = Configuration.GetSection("Jwt:Issuer").Value,
+                ValidIssuer = "http://localhost:5001",
                 ValidateAudience = false,
-                ClockSkew = TimeSpan.Zero,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("Jwt:Key").Value))
+                ClockSkew = TimeSpan.Zero,  
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super_secret_key_123!"))
             };
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
-            {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options => {
                 options.TokenValidationParameters = tokenValidationParameters;
             });
+
+            services.AddMemoryCache();
+            services.AddMvc();
 
             var builder = new ContainerBuilder();
             builder.Populate(services);
@@ -62,7 +60,6 @@ namespace Tutoring.Api
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseAuthentication();
             app.UseMvc();
             applicationLifetime.ApplicationStopped.Register(() => ApplicationContainer.Dispose());

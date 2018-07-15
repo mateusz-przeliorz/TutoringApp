@@ -23,13 +23,14 @@ namespace Tutoring.Core.Domain
         }
 
         public User(string email, string username,
-            string password, string salt, string city)
+            string password, string salt, string city, string role)
         {
             Id = Guid.NewGuid();
             SetEmail(email);
             SetUsername(username);
             SetPassword(password);
             Salt = salt;
+            Role = role;
             CreatedAt = DateTime.UtcNow;
             City = city;
         }

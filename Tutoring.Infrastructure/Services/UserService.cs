@@ -41,8 +41,7 @@ namespace Tutoring.Infrastructure.Services
                 throw new Exception("Invalid credentials");
             }
 
-            var salt = _encrypter.GetSalt(password);
-            var hash = _encrypter.GetHash(password, salt);
+            var hash = _encrypter.GetHash(password, user.Salt);
 
             if(user.Password == hash)
             {
@@ -52,7 +51,7 @@ namespace Tutoring.Infrastructure.Services
             throw new Exception("Invalid credentials");
         }
 
-        public async Task RegisterAsync(string email, string username, string password, string city)
+        public async Task RegisterAsync(string email, string username, string password, string city, string role)
         {
             var user = await _userRepository.GetAsync(email);
             
@@ -70,7 +69,7 @@ namespace Tutoring.Infrastructure.Services
 
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
-            user = new User(email, username, hash, salt, city);
+            user = new User(email, username, hash, salt, city, role);
             await _userRepository.AddAsync(user);
         }
     }

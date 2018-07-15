@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Tutoring.Infrastructure.Commands;
@@ -16,14 +15,6 @@ namespace Tutoring.Api.Controllers
                     : base(commandDispatcher)
         {
             _jwtHandler = jwtHandler;
-        }
-
-        [HttpGet]
-        [Route("token")]
-        public IActionResult Get()
-        {
-            var token = _jwtHandler.CreateToken("jakis@test.com", "user");
-            return Json(token);
         }
 
         [HttpPut]

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Extensions.Caching.Memory;
 using System.Threading.Tasks;
 using Tutoring.Infrastructure.Commands;
 using Tutoring.Infrastructure.Commands.Users;
@@ -19,8 +17,7 @@ namespace Tutoring.Infrastructure.Handlers.Users
 
         public async Task HandleAsync(CreateUser command)
         {
-            await _userService.RegisterAsync(command.Email, command.Username, command.Password, command.City);
-
+            await _userService.RegisterAsync(command.Email, command.Username, command.Password, command.City, command.Role);
         }
     }
 }

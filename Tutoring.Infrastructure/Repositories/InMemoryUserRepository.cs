@@ -11,9 +11,9 @@ namespace Tutoring.Infrastructure.Repositories
     {
         private static ISet<User> _users = new HashSet<User>()
         {
-            new User("email2@email.com","user1","qwe123", "salt", "Wroclaw"),
-            new User("email3@email.com","user2","qwe123", "salt", "Wroclaw"),
-            new User("email4@email.com","user3","qwe123", "salt", "Wroclaw")
+            new User("email2@email.com","user1","qwe123", "salt", "Wroclaw", "user"),
+            new User("email3@email.com","user2","qwe123", "salt", "Wroclaw", "user"),
+            new User("email4@email.com","user3","qwe123", "salt", "Wroclaw", "user")
         };
        
         public async Task AddAsync(User user)

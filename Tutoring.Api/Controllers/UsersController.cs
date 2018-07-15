@@ -20,7 +20,6 @@ namespace Tutoring.Api.Controllers
             _userService = userService;
         }
 
-        [Authorize]
         [HttpGet("{email}")]
         public async Task<IActionResult> GetAsync(string email)
         {
