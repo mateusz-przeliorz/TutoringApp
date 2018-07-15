@@ -21,7 +21,7 @@ namespace Tutoring.Tests.Services
             encrypterMock.Setup(x => x.GetHash(It.IsAny<string>(), It.IsAny<string>())).Returns("salt");
 
             var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object);
-            await userService.RegisterAsync("user@email.com", "user", "secret", "Wroclaw");
+            await userService.RegisterAsync("user@email.com", "user", "secret", "Wroclaw", "user");
 
             userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
         }
@@ -34,7 +34,7 @@ namespace Tutoring.Tests.Services
             var encrypterMock = new Mock<IEncrypter>();
             var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object);
             await userService.GetAsync("user1@email.com");
-            var user = new User("user1@email.com", "user1", "secret", "salt", "Wroclaw");
+            var user = new User("user1@email.com", "user1", "secret", "salt", "Wroclaw", "user");
 
             userRepositoryMock.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(user);
             userRepositoryMock.Verify(x => x.GetAsync(It.IsAny<string>()), Times.Once);

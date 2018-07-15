@@ -18,11 +18,6 @@ namespace Tutoring.Api.Controllers
             _memoryCache = memoryCache;
         }
         
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            return Content("Logowanie");
-        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]LoginUser command)

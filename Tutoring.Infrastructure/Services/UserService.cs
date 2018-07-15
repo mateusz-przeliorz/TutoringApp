@@ -41,7 +41,8 @@ namespace Tutoring.Infrastructure.Services
                 throw new Exception("Invalid credentials");
             }
 
-            var hash = _encrypter.GetHash(password, user.Salt);
+            var salt = _encrypter.GetSalt(password);
+            var hash = _encrypter.GetHash(password, salt);
 
             if(user.Password == hash)
             {

@@ -29,8 +29,8 @@ namespace Tutoring.Core.Domain
             SetEmail(email);
             SetUsername(username);
             SetPassword(password);
-            Salt = salt;
             Role = role;
+            Salt = salt;
             CreatedAt = DateTime.UtcNow;
             City = city;
         }
