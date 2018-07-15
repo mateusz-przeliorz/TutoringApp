@@ -34,7 +34,8 @@ namespace Tutoring.Tests.EndToEnd.Controllers
                 Email = "test@email.com",
                 Password = "secret",
                 Username = "testUser",
-                City = "Wrocław"
+                City = "Wrocław",
+                Role = "user"
             };
 
             var payload = GetPayload(request);

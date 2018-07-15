@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Text;
-using Tutoring.Api;
 
 namespace Tutoring.Tests.EndToEnd.Controllers
 {
