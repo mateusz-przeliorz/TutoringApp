@@ -35,7 +35,7 @@ namespace Tutoring.Infrastructure.Services
                 var userId = Guid.NewGuid();
                 var username = $"user{i}";
                 tasks.Add(_userService.RegisterAsync(userId,$"user{i}@test.com", username, "secret", "Wroclaw", "user"));
-                Logger.Trace($"Adding user: '{username}'.");
+                Logger.Trace($"Adding user with username: '{username}'.");
                 tasks.Add(_leaderService.CreateAsync(userId));
                 Logger.Trace($"Adding leader for: '{username}'.");
             }
@@ -44,7 +44,7 @@ namespace Tutoring.Infrastructure.Services
             {
                 var userId = Guid.NewGuid();
                 var username = $"admin{i}";
-                Logger.Trace($"Adding admin: '{username}'.");
+                Logger.Trace($"Adding admin with username: '{username}'.");
                 tasks.Add(_userService.RegisterAsync(userId,$"admin{i}@test.com", username, "secret", "Wroclaw", "admin"));
             }
             await Task.WhenAll(tasks);
