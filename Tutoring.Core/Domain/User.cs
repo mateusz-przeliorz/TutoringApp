@@ -22,10 +22,10 @@ namespace Tutoring.Core.Domain
         {
         }
 
-        public User(string email, string username,
+        public User(Guid userId, string email, string username,
             string password, string salt, string city, string role)
         {
-            Id = Guid.NewGuid();
+            Id = userId;
             SetEmail(email);
             SetUsername(username);
             SetPassword(password);

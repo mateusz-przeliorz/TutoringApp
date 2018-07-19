@@ -10,11 +10,8 @@ namespace Tutoring.Infrastructure.Repositories
 {
     public class InMemoryCourseRepository : ICourseRepository
     {
-        private static ISet<Course> _courses = new HashSet<Course>()
-        {
-            new Course(Details.Create("Matematyka",5,"Matematyka","Szkola Podstawowa","Jakis opis","Wroclaw")),
-            new Course(Details.Create("Angielski",3,"Matematyka","Gimnazjum","Jakis opis","Wroclaw"))
-        };
+        private static ISet<Course> _courses = new HashSet<Course>();
+        
 
         public async Task CreateAsync(Course course)
         {

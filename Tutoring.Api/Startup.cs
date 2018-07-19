@@ -9,33 +9,41 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Tutoring.Infrastructure.Extensions;
 using Tutoring.Infrastructure.IoC;
+using Tutoring.Infrastructure.IoC.Modules;
+using Tutoring.Infrastructure.Services;
 using Tutoring.Infrastructure.Settings;
 
 namespace Tutoring.Api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
         public IConfiguration Configuration { get; }
         public IContainer ApplicationContainer { get; private set; }
-        //private readonly JwtSettings _jwtSettings;
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.json.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
+            Configuration = builder.Build();
+        }
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
+            var jwtSettings = Configuration.GetSettings<JwtSettings>();
+            
             var tokenValidationParameters = new TokenValidationParameters
             {
-                ValidIssuer = "http://localhost:5001",
+                ValidIssuer = jwtSettings.Issuer,
                 ValidateAudience = false,
                 ClockSkew = TimeSpan.Zero,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("super_secret_key_123!"))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
             };
 
             services.AddAuthentication(options =>
@@ -46,11 +54,16 @@ namespace Tutoring.Api
                 options.TokenValidationParameters = tokenValidationParameters;
             });
 
+            services.AddMvc();
+
             var builder = new ContainerBuilder();
+
             builder.Populate(services);
             builder.RegisterModule(new ContainerModule(Configuration));
+            builder.RegisterModule(new SettingsModule(Configuration));
+
             ApplicationContainer = builder.Build();
-                
+
             return new AutofacServiceProvider(ApplicationContainer);
         }
 
@@ -61,6 +74,13 @@ namespace Tutoring.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }
+
+            var dataSettings = app.ApplicationServices.GetService<DataSettings>();
+            if (dataSettings.SeedData)
+            {
+                var dataInitializer = app.ApplicationServices.GetService<IDataInitializer>();
+                dataInitializer.SeedAsync();
             }
 
             app.UseAuthentication();

@@ -16,7 +16,7 @@ namespace Tutoring.Infrastructure.IoC.Modules
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterInstance(_configuration.GetSettings<UserSettings>())
+            builder.RegisterInstance(_configuration.GetSettings<DataSettings>())
                                         .SingleInstance();
 
             builder.RegisterInstance(_configuration.GetSettings<JwtSettings>())

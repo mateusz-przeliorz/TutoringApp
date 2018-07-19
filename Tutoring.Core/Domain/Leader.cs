@@ -29,7 +29,9 @@ namespace Tutoring.Core.Domain
         {
             UserId = user.Id;
             Name = user.Username;
+            UpdatedAt = DateTime.UtcNow;
         }
+
         public void AddTutoring(string title, int size, string field, string level, string description, string city)
         {
             var tutoring = Tutorings.SingleOrDefault(x => x.Details.Title == title);
@@ -39,7 +41,6 @@ namespace Tutoring.Core.Domain
             }
 
             tutoring.SetDetails(Details.Create(title, size, field, level, description, city));
-
             _tutorings.Add(tutoring);
             UpdatedAt = DateTime.UtcNow;
         }
@@ -51,6 +52,7 @@ namespace Tutoring.Core.Domain
             {
                 throw new Exception($"Tutoring named: '{title}' for driver: '{Name}' was not found.");
             }
+
             _tutorings.Remove(tutoring);
             UpdatedAt = DateTime.UtcNow;
         }

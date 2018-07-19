@@ -17,7 +17,7 @@ namespace Tutoring.Infrastructure.Handlers.Users
 
         public async Task HandleAsync(CreateUser command)
         {
-            await _userService.RegisterAsync(command.Email, command.Username, command.Password, command.City, command.Role);
+            await _userService.RegisterAsync(command.UserId, command.Email, command.Username, command.Password, command.City, command.Role);
         }
     }
 }

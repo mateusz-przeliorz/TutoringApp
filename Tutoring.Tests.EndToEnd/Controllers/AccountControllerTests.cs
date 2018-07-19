@@ -9,7 +9,7 @@ using Xunit;
 namespace Tutoring.Tests.EndToEnd.Controllers
 {
     public class AccountControllerTests : ControllerTestsBase
-    {
+    {    
         [Fact]
         public async Task given_valid_new_password_current_password_should_be_changed()
         {

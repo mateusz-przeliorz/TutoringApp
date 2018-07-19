@@ -12,5 +12,6 @@ namespace Tutoring.Core.Repositories
         Task<IEnumerable<Leader>> GetAllAsync();
         Task AddAsync(Leader leader);
         Task UpdateAsync(Leader leader);
+        Task RemoveAsync(Leader leader);
     }
 }

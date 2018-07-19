@@ -18,7 +18,6 @@ namespace Tutoring.Core.Domain
           set  { _participants = new HashSet<Participant>(value); }
         }
   
-
         public Course(Details details)
         {
             SetDetails(details);

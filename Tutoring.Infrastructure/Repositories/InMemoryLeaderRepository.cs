@@ -31,7 +31,12 @@ namespace Tutoring.Infrastructure.Repositories
         public async Task UpdateAsync(Leader driver)
         {
             await Task.CompletedTask;
+        }
 
+        public async Task RemoveAsync(Leader leader)
+        {
+            _leaders.Remove(leader);
+            await Task.CompletedTask;
         }
     }
 }

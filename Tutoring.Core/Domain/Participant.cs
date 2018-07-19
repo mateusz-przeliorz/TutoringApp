@@ -14,11 +14,16 @@ namespace Tutoring.Core.Domain
         {
         }
 
-        public Participant(Guid id, string username)
+        public Participant(User user)
         {
             Id = Guid.NewGuid();
-            UserId = id;
-            Name = username;
+            UserId = user.Id;
+            Name = user.Username;
+        }
+
+        public static Participant Create(User user)
+        {
+            return new Participant(user);
         }
     }
 }

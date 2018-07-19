@@ -10,13 +10,11 @@ namespace Tutoring.Api.Controllers
 {
     public class UsersController : ApiBaseController
     {
-        private readonly UserSettings _settings;
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, ICommandDispatcher commandDispatcher,
-            UserSettings settings) : base(commandDispatcher)
+        public UsersController(IUserService userService, ICommandDispatcher commandDispatcher)
+             : base(commandDispatcher)
         {
-            _settings = settings;
             _userService = userService;
         }
 

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Tutoring.Core.Domain;
 using Tutoring.Core.Repositories;
@@ -18,6 +19,13 @@ namespace Tutoring.Infrastructure.Services
             _userRepository = userRepository;
             _mapper = mapper;
             _encrypter = encrypter;
+        }
+
+        public async Task<IEnumerable<UserDto>> BrowseAsync()
+        {
+            var users = await _userRepository.GetAllAsync();
+
+            return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
         }
 
         public async Task ChangeUserPasswordAsync(string email, string newPassword)
@@ -52,7 +60,7 @@ namespace Tutoring.Infrastructure.Services
             throw new Exception("Invalid credentials");
         }
 
-        public async Task RegisterAsync(string email, string username, string password, string city, string role)
+        public async Task RegisterAsync(Guid userId, string email, string username, string password, string city, string role)
         {
             var user = await _userRepository.GetAsync(email);
             
@@ -70,7 +78,7 @@ namespace Tutoring.Infrastructure.Services
 
             var salt = _encrypter.GetSalt(password);
             var hash = _encrypter.GetHash(password, salt);
-            user = new User(email, username, hash, salt, city, role);
+            user = new User(userId, email, username, hash, salt, city, role);
             await _userRepository.AddAsync(user);
         }
     }

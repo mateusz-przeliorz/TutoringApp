@@ -16,13 +16,13 @@ namespace Tutoring.Tests.EndToEnd.Controllers
         {
             Server = new TestServer(new WebHostBuilder()
                           .UseStartup<Startup>());
+
             Client = Server.CreateClient();
         }
 
         protected static StringContent GetPayload(object data)
         {
             var json = JsonConvert.SerializeObject(data);
-
             return new StringContent(json, Encoding.UTF8, "application/json");
         }
     }

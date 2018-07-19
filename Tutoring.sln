@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutoring.Api", "Tutoring.Api\Tutoring.Api.csproj", "{21301F2C-73E5-4F69-B026-4CAF8BBAA461}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutoring.Api", "Tutoring.Api\Tutoring.Api.csproj", "{21301F2C-73E5-4F69-B026-4CAF8BBAA461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutoring.Core", "Tutoring.Core\Tutoring.Core.csproj", "{42D91988-2C02-46A0-87D0-51F479F54C5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutoring.Core", "Tutoring.Core\Tutoring.Core.csproj", "{42D91988-2C02-46A0-87D0-51F479F54C5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutoring.Infrastructure", "Tutoring.Infrastructure\Tutoring.Infrastructure.csproj", "{DDCA5E91-3587-48C9-897C-FF636A8A5D5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutoring.Infrastructure", "Tutoring.Infrastructure\Tutoring.Infrastructure.csproj", "{DDCA5E91-3587-48C9-897C-FF636A8A5D5D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutoring.Tests", "Tutoring.Tests\Tutoring.Tests.csproj", "{A51E067C-EA07-4664-B95E-109F9CC91330}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutoring.Tests", "Tutoring.Tests\Tutoring.Tests.csproj", "{A51E067C-EA07-4664-B95E-109F9CC91330}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tutoring.Tests.EndToEnd", "Tutoring.Tests.EndToEnd\Tutoring.Tests.EndToEnd.csproj", "{F4533911-C6D1-4C6D-B343-B5D90224E24A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tutoring.Tests.EndToEnd", "Tutoring.Tests.EndToEnd\Tutoring.Tests.EndToEnd.csproj", "{F4533911-C6D1-4C6D-B343-B5D90224E24A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
