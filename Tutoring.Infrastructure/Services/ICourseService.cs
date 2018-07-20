@@ -11,5 +11,8 @@ namespace Tutoring.Infrastructure.Services
     {
         Task<IEnumerable<CourseDto>> GetAllAsync();
         Task<CourseDto> GetAsync(Guid id);
+        Task CreateAsync(Guid courseId, string name, int size, string city, string description,
+            string field, string level, string subject);
+        Task SetCourseDetailsAsync(Guid courseId, string field, string level, string subject);
     }
 }

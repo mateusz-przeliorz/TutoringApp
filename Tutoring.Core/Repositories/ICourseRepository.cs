@@ -10,7 +10,7 @@ namespace Tutoring.Core.Repositories
     {
         Task<Course> GetAsync(Guid id);
         Task<IEnumerable<Course>> GetAllAsync();
-        Task CreateAsync(Course course);
+        Task AddAsync(Course course);
         Task UpdateAsync(Course course);
     }
 }

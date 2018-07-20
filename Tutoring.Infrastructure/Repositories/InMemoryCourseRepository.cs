@@ -12,8 +12,7 @@ namespace Tutoring.Infrastructure.Repositories
     {
         private static ISet<Course> _courses = new HashSet<Course>();
         
-
-        public async Task CreateAsync(Course course)
+        public async Task AddAsync(Course course)
         {
             _courses.Add(course);
             await Task.CompletedTask;

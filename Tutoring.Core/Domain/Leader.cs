@@ -32,25 +32,24 @@ namespace Tutoring.Core.Domain
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void AddTutoring(string title, int size, string field, string level, string description, string city)
+        public void AddTutoring(Course course)
         {
-            var tutoring = Tutorings.SingleOrDefault(x => x.Details.Title == title);
+            var tutoring = Tutorings.SingleOrDefault(x => x.Id == course.Id);
             if (tutoring != null)
             {
-                throw new Exception($"Tutoring with title: '{title}' already exists.");
+                throw new Exception($"Tutoring with id: '{course.Id}' already exists.");
             }
 
-            tutoring.SetDetails(Details.Create(title, size, field, level, description, city));
-            _tutorings.Add(tutoring);
+            _tutorings.Add(course);
             UpdatedAt = DateTime.UtcNow;
         }
 
-        public void DeleteTutoring(string title)
+        public void DeleteTutoring(Course course)
         {
-            var tutoring = Tutorings.SingleOrDefault(x => x.Details.Title == title);
+            var tutoring = Tutorings.SingleOrDefault(x => x.Id == course.Id);
             if (tutoring == null)
             {
-                throw new Exception($"Tutoring named: '{title}' for driver: '{Name}' was not found.");
+                throw new Exception($"Tutoring named: '{course.Name}' for leader: '{Name}' was not found.");
             }
 
             _tutorings.Remove(tutoring);

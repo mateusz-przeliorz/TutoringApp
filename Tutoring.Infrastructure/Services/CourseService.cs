@@ -12,12 +12,15 @@ namespace Tutoring.Infrastructure.Services
     public class CourseService : ICourseService
     {
         private readonly ICourseRepository _courseRepository;
+        private readonly ICourseDetailsProvider _courseDetailsProvider;
         private readonly IMapper _mapper;
 
-        public CourseService(ICourseRepository courseRepository, IMapper mapper)
+        public CourseService(ICourseRepository courseRepository, IMapper mapper,
+                                ICourseDetailsProvider courseDetailsProvider)
         {
             _courseRepository = courseRepository;
             _mapper = mapper;
+            _courseDetailsProvider = courseDetailsProvider;
         }
 
         public async Task<CourseDto> GetAsync(Guid id)
@@ -32,5 +35,30 @@ namespace Tutoring.Infrastructure.Services
             return _mapper.Map<IEnumerable<Course>, IEnumerable<CourseDto>>(courses);
         }
 
+        public async Task CreateAsync(Guid courseId, string name, int size, string city, string description,
+            string field, string level, string subject)
+        {
+            var course = await _courseRepository.GetAsync(courseId);
+            if (course != null)
+            {
+                throw new Exception($"Course with course id: '{courseId}' already exists.");
+            }
+            var courseDetails = await _courseDetailsProvider.GetAsync(subject, field, level);
+            course = new Course(courseDetails, name, size, city, description);
+
+            await _courseRepository.AddAsync(course);
+        }
+
+        public async Task SetCourseDetailsAsync(Guid courseId, string field, string level, string subject)
+        {
+            var course = await _courseRepository.GetAsync(courseId);
+            if (course == null)
+            {
+                throw new Exception($"Course with course id: '{courseId}' can not be found.");
+            }
+
+            var courseDetails = await _courseDetailsProvider.GetAsync(subject, field, level);
+            course.SetCourseDetails(courseDetails);
+        }
     }
 }
