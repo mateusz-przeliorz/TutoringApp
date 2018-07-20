@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Text;
 using Tutoring.Infrastructure.Extensions;
@@ -54,7 +55,8 @@ namespace Tutoring.Api
                 options.TokenValidationParameters = tokenValidationParameters;
             });
 
-            services.AddMvc();
+            services.AddMvc()
+                    .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented); ;
 
             var builder = new ContainerBuilder();
 

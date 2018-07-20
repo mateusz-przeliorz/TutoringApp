@@ -31,6 +31,11 @@ namespace Tutoring.Infrastructure.Services
         public async Task CreateAsync(Guid userId)
         {
             var user = await _userRepository.GetAsync(userId);
+            if (user == null)
+            {
+                throw new Exception($"User with user id: '{userId}' can not be found.");
+            }
+
             var leader = await _leaderRepository.GetAsync(userId);
             if(leader != null)
             {
