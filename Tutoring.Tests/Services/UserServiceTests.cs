@@ -21,7 +21,7 @@ namespace Tutoring.Tests.Services
             encrypterMock.Setup(x => x.GetHash(It.IsAny<string>(), It.IsAny<string>())).Returns("salt");
 
             var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object);
-            await userService.RegisterAsync(Guid.NewGuid(), "user@email.com", "user", "secret", "Wroclaw", "user");
+            await userService.RegisterAsync(Guid.NewGuid(), "user1@test.com", "user", "secret", "Wroclaw", "user");
 
             userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
         }

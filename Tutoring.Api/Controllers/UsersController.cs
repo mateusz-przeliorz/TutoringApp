@@ -18,6 +18,17 @@ namespace Tutoring.Api.Controllers
             _userService = userService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllAsync()
+        {
+            var users = await _userService.BrowseAsync();
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return Json(users);
+        }
+
         [HttpGet("{email}")]
         public async Task<IActionResult> GetAsync(string email)
         {

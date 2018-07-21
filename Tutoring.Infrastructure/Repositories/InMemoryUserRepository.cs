@@ -10,7 +10,7 @@ namespace Tutoring.Infrastructure.Repositories
     public class InMemoryUserRepository : IUserRepository
     {
         private static ISet<User> _users = new HashSet<User>();
-       
+     
         public async Task AddAsync(User user)
         {
             _users.Add(user);

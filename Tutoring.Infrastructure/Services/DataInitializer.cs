@@ -1,6 +1,6 @@
-﻿using NLog;
+﻿using Microsoft.Extensions.Logging;
+using NLog;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,13 +10,13 @@ namespace Tutoring.Infrastructure.Services
     {
         private readonly IUserService _userService;
         private readonly ILeaderService _leaderService;
+        private readonly ILogger<DataInitializer> _logger;
 
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public DataInitializer(IUserService userService, ILeaderService leaderService)
+        public DataInitializer(IUserService userService, ILeaderService leaderService, ILogger<DataInitializer> logger)
         {
             _userService = userService;
             _leaderService = leaderService;
+            _logger = logger;
         }
 
         public async Task SeedAsync()
@@ -24,31 +24,30 @@ namespace Tutoring.Infrastructure.Services
             var users = await _userService.BrowseAsync();
             if (users.Any())
             {
-                Logger.Trace("Data was already initialized.");
+                _logger.LogTrace("Data was already initialized.");
                 return;
             }
 
-            Logger.Trace("Initializing data...");
-            var tasks = new List<Task>();
+            _logger.LogTrace("Initializing data...");
+
             for (var i = 1; i <= 5; i++)
             {
                 var userId = Guid.NewGuid();
                 var username = $"user{i}";
-                tasks.Add(_userService.RegisterAsync(userId,$"user{i}@test.com", username, "secret", "Wroclaw", "user"));
-                Logger.Trace($"Adding user with username: '{username}'.");
-                tasks.Add(_leaderService.CreateAsync(userId));
-                Logger.Trace($"Adding leader for: '{username}'.");
+                await _userService.RegisterAsync(userId,$"user{i}@test.com", username, "secret", "Wroclaw", "user");
+                _logger.LogTrace($"Adding user with username: '{username}'.");
+                await _leaderService.CreateAsync(userId);
+                _logger.LogTrace($"Adding leader for: '{username}'.");
             }
 
             for (var i = 1; i <= 3; i++)
             {
                 var userId = Guid.NewGuid();
                 var username = $"admin{i}";
-                Logger.Trace($"Adding admin with username: '{username}'.");
-                tasks.Add(_userService.RegisterAsync(userId,$"admin{i}@test.com", username, "secret", "Wroclaw", "admin"));
+                _logger.LogTrace($"Adding admin with username: '{username}'.");
+                await _userService.RegisterAsync(userId,$"admin{i}@test.com", username, "secret", "Wroclaw", "admin");
             }
-            await Task.WhenAll(tasks);
-            Logger.Trace("Data was initialized.");
+            _logger.LogTrace("Data was initialized.");
         }
     }
 }

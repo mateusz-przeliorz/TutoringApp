@@ -6,9 +6,7 @@
 
 
   <ItemGroup>
-    <Content Include="appsettings.json" CopyToOutputDirectory="Always">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+    <Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   
   

@@ -11,43 +11,6 @@ namespace Tutoring.Tests.EndToEnd.Controllers
     public class AccountControllerTests : ControllerTestsBase
     {    
         [Fact]
-        public async Task given_valid_new_password_current_password_should_be_changed()
-        {
-            var email = "email2@email.com";
-            var user = await GetUserAsync(email);
-            user.Email.Should().BeEquivalentTo(email);
-
-            var request = new ChangeUserPassword()
-            {
-                Email = email,
-                NewPassword = "newpassword"
-            };
-
-            var payload = GetPayload(request);
-            var response = await Client.PutAsync("api/account", payload);
-            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.Created);
-            response.Headers.Location.ToString().Should().BeEquivalentTo($"api/account/{request.Email}");
-        }
-
-        [Fact]
-        public async Task given_invalid_new_password_current_password_should_not_be_changed()
-        {
-            var email = "email2@email.com";
-            var user = await GetUserAsync(email);
-            user.Email.Should().BeEquivalentTo(email);
-
-            var request = new ChangeUserPassword()
-            {
-                Email = email,
-                NewPassword = "new"
-            };
-
-            var payload = GetPayload(request);
-            var response = await Client.PutAsync("api/account", payload);
-            response.StatusCode.Should().BeEquivalentTo(HttpStatusCode.NoContent);
-        }
-
-        [Fact]
         public async Task given_nonexistent_email_current_password_should_not_be_changed_and_user_should_not_exist()
         {
             var email = "nonexistent@email.com";
