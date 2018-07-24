@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Tutoring.Core.Domain;
 using Tutoring.Infrastructure.Dtos;
 

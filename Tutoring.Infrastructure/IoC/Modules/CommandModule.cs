@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 using Autofac;
 using Tutoring.Infrastructure.Commands;
-using Tutoring.Infrastructure.Commands.Users;
-using Tutoring.Infrastructure.Handlers.Users;
 
 namespace Tutoring.Infrastructure.IoC.Modules
 {
