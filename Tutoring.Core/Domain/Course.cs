@@ -18,10 +18,14 @@ namespace Tutoring.Core.Domain
 
         public IEnumerable<Participant> Participants
         {
-          get  { return _participants; }
-          set  { _participants = new HashSet<Participant>(value); }
+            get { return _participants; }
+            set { _participants = new HashSet<Participant>(value); }
         }
-        
+
+        protected Course()
+        {
+        }
+
         public Course(CourseDetails details, string name, int size, string city, string description)
         {
             SetCourseDetails(details);
@@ -29,8 +33,13 @@ namespace Tutoring.Core.Domain
             SetSize(size);
             SetCity(city);
             SetDescription(description);
-            Id = Guid.NewGuid();
+            SetId();
             CreatedAt = DateTime.UtcNow;
+        }
+
+        public void SetId()
+        {
+            Id = Guid.NewGuid();
         }
 
         public void SetName(string name)
@@ -96,7 +105,7 @@ namespace Tutoring.Core.Domain
 
         public void SetCourseDetails(CourseDetails details)
         {
-            if(details != null)
+            if (details != null)
             {
                 Details = details;
                 UpdatedAt = DateTime.UtcNow;
@@ -115,9 +124,14 @@ namespace Tutoring.Core.Domain
             _participants.Add(p);
         }
 
-        public Participant GetParticipant(Participant participant)
+        public Participant GetParticipant(Participant p)
         {
-            return _participants.SingleOrDefault(x => x.UserId == participant.UserId);
+            var participant = _participants.SingleOrDefault(x => x.UserId == p.UserId);
+            if (participant == null)
+            {
+                throw new Exception($"Participant with id: '{p.Id}' does not exist");
+            }
+            return participant;
         }
 
         public void RemoveParticipant(Participant p)
@@ -125,7 +139,7 @@ namespace Tutoring.Core.Domain
             var participant = GetParticipant(p);
             if (participant == null)
             {
-                return;
+                throw new Exception($"Participant with id: '{p.Id}' does not exist");
             }
             _participants.Remove(participant);
         }

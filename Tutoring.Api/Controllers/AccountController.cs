@@ -20,15 +20,8 @@ namespace Tutoring.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]ChangeUserPassword command)
         {
-            try
-            {
                 await CommandDispatcher.DispatchAsync(command);
-                return Created($"api/account/{command.Email}", new object());
-            }
-            catch (Exception ex)
-            {
-                return NoContent();
-            }
+                return Created($"api/account/{command.Email}", null);
         }
     }
 }

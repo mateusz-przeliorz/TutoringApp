@@ -23,7 +23,7 @@ namespace Tutoring.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = await _courseDetailsProvider.BrowseAsync();
+            var users = await _courseService.GetAllAsync();
 
             return Json(users);
         }

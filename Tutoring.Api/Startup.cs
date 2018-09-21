@@ -56,7 +56,7 @@ namespace Tutoring.Api
             });
 
             services.AddMvc()
-                    .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented); ;
+                    .AddJsonOptions(x => x.SerializerSettings.Formatting = Formatting.Indented); 
 
             var builder = new ContainerBuilder();
 
@@ -73,6 +73,10 @@ namespace Tutoring.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             ILoggerFactory loggerFactory, IApplicationLifetime applicationLifetime)
         {
+
+            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+            loggerFactory.AddDebug();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

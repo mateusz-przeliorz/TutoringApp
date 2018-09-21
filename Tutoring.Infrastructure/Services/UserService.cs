@@ -24,7 +24,6 @@ namespace Tutoring.Infrastructure.Services
         public async Task<IEnumerable<UserDto>> BrowseAsync()
         {
             var users = await _userRepository.GetAllAsync();
-
             return _mapper.Map<IEnumerable<User>, IEnumerable<UserDto>>(users);
         }
 

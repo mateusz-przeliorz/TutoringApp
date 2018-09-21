@@ -10,7 +10,6 @@ namespace Tutoring.Core.Domain
     public class Leader
     {
         private ISet<Course> _tutorings = new HashSet<Course>();
-
         public Guid UserId { get; protected set; }
         public string Name { get; set; }
         public DateTime UpdatedAt { get; set; }

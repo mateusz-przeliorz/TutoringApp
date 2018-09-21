@@ -9,13 +9,18 @@ namespace Tutoring.Infrastructure.Services
     {
         private readonly IUserService _userService;
         private readonly ILeaderService _leaderService;
+        private readonly ICourseService _courseService;
         private readonly ILogger<DataInitializer> _logger;
 
-        public DataInitializer(IUserService userService, ILeaderService leaderService, ILogger<DataInitializer> logger)
+        private readonly string[] listOfSubjects = { "pierwszego", "drugiego", "trzeciego", "czwartego", "piątego"};
+
+        public DataInitializer(IUserService userService, ILeaderService leaderService, ILogger<DataInitializer> logger,
+                               ICourseService courseService)
         {
             _userService = userService;
             _leaderService = leaderService;
             _logger = logger;
+            _courseService = courseService;
         }
 
         public async Task SeedAsync()
@@ -26,18 +31,21 @@ namespace Tutoring.Infrastructure.Services
                 _logger.LogTrace("Data was already initialized.");
                 return;
             }
-
             _logger.LogTrace("Initializing data...");
 
             for (var i = 1; i <= 5; i++)
             {
                 var userId = Guid.NewGuid();
+                var courseId = Guid.NewGuid();
                 var username = $"user{i}";
-                await _userService.RegisterAsync(userId,$"user{i}@test.com", username, "secret", "Wroclaw", "user");
+                await _userService.RegisterAsync(userId, $"user{i}@test.com", username, "secret", "Wroclaw", "user");
                 _logger.LogTrace($"Adding user with username: '{username}'.");
                 await _leaderService.CreateAsync(userId);
                 _logger.LogTrace($"Adding leader for: '{username}'.");
+                await _courseService.CreateAsync(courseId, $"Nauka angielskiego '{listOfSubjects[i]}'", 5, "Radlin", "Opis...", "Botanika", "Szkola wyzsza", "Biologia");
+                _logger.LogTrace($"Adding course for: '{listOfSubjects[i]}'.");
             }
+
 
             for (var i = 1; i <= 3; i++)
             {

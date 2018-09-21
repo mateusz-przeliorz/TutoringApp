@@ -7,7 +7,6 @@ namespace Tutoring.Infrastructure.Handlers.Users
 {
     public class ChangeUserPasswordHandler : ICommandHandler<ChangeUserPassword>
     {
-
         private readonly IUserService _userService;
 
         public ChangeUserPasswordHandler(IUserService userService)
