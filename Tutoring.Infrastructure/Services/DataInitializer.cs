@@ -42,7 +42,7 @@ namespace Tutoring.Infrastructure.Services
                 _logger.LogTrace($"Adding user with username: '{username}'.");
                 await _leaderService.CreateAsync(userId);
                 _logger.LogTrace($"Adding leader for: '{username}'.");
-                await _courseService.CreateAsync(courseId, $"Nauka angielskiego '{listOfSubjects[i]}'", 5, "Radlin", "Opis...", "Botanika", "Szkola wyzsza", "Biologia");
+                await _courseService.CreateAsync(courseId, $"Nauka angielskiego '{listOfSubjects[i]}'", 5, "Radlin", "Opis...", "Biologia 1", "Szkola podstawowa", "Biologia");
                 _logger.LogTrace($"Adding course for: '{listOfSubjects[i]}'.");
             }
 

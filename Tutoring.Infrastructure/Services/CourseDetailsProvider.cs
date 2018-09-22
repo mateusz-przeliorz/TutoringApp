@@ -25,8 +25,8 @@ namespace Tutoring.Infrastructure.Services
                 {
                     new FieldDetails("Biologia roslin", "Szkola wyzsza"),
                     new FieldDetails("Botanika", "Szkola wyzsza"),
-                    new FieldDetails("Biologia", "Szkola podstawowa"),
-                    new FieldDetails("Biologia", "Szkola srednia"),
+                    new FieldDetails("Biologia 1", "Szkola podstawowa"),
+                    new FieldDetails("Biologia 1", "Szkola wyzsza"),
                 },
 
                 ["Jezyk angielski"] = new List<FieldDetails>
@@ -63,41 +63,38 @@ namespace Tutoring.Infrastructure.Services
             return await Task.FromResult(_availableFieldDetails.GroupBy(x => x.Key)
                 .SelectMany(g => g.SelectMany(v => v.Value.Select(x => new CourseDetailsDto
                 {
-                    Field = v.Key,
-                    Subject = x.Subject,
+                    Subject = v.Key,
+                    Field = x.Field,
                     Level = x.Level
                 }))));
         }
 
         public async Task<CourseDetails> GetAsync(string subject, string field, string level)
         {
-            if (!_availableFieldDetails.ContainsKey(field))
+            if (!_availableFieldDetails.ContainsKey(subject))
             {
-                throw new Exception($"Course field: '{field}' is not available.");
+                throw new Exception($"Course subject: '{subject}' is not available.");
             }
-            var vehicles = _availableFieldDetails[field];
-            var vehicle = vehicles.SingleOrDefault(x => x.Subject == subject);
-            if (vehicle == null)
-            {
-                throw new Exception($"Course: '{subject}' for field: '{field}' is not available.");
-            }
-            vehicle = vehicles.SingleOrDefault(x => x.Level == level);
+            var fields = _availableFieldDetails[subject];
 
-            if (vehicle == null)
+            var currentField = fields.SingleOrDefault(x => x.Field == field && x.Level == level);
+
+            if (currentField == null)
             {
-                throw new Exception($"Course level: '{level}' for field: '{field}' is not available.");
+                throw new Exception($"Field: '{field}' and level: '{level}' for subject: '{subject}' is not available.");
             }
+
             return await Task.FromResult(CourseDetails.Create(field,level,subject));
         }
 
         private class FieldDetails
         {
-            public string Subject { get;  }
+            public string Field { get;  }
             public string Level { get;  }
 
-            public FieldDetails(string subject, string level)
+            public FieldDetails(string field, string level)
             {
-                Subject = subject;
+                Field = field;
                 Level = level;
             }
         }
