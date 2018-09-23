@@ -11,9 +11,9 @@ namespace Tutoring.Infrastructure.Repositories
     {
         private static ISet<Leader> _leaders = new HashSet<Leader>();
 
-        public async Task AddAsync(Leader driver)
+        public async Task AddAsync(Leader leader)
         {
-            _leaders.Add(driver);
+            _leaders.Add(leader);
             await Task.CompletedTask;
         }
 
@@ -27,7 +27,7 @@ namespace Tutoring.Infrastructure.Repositories
             return await Task.FromResult(_leaders);
         }
 
-        public async Task UpdateAsync(Leader driver)
+        public async Task UpdateAsync(Leader leader)
         {
             await Task.CompletedTask;
         }

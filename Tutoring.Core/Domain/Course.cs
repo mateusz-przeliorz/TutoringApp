@@ -129,7 +129,7 @@ namespace Tutoring.Core.Domain
             var participant = _participants.SingleOrDefault(x => x.UserId == p.UserId);
             if (participant == null)
             {
-                throw new Exception($"Participant with id: '{p.Id}' does not exist");
+                throw new Exception($"Participant with id: '{p.UserId}' does not exist");
             }
             return participant;
         }
@@ -139,7 +139,7 @@ namespace Tutoring.Core.Domain
             var participant = GetParticipant(p);
             if (participant == null)
             {
-                throw new Exception($"Participant with id: '{p.Id}' does not exist");
+                throw new Exception($"Participant with id: '{p.UserId}' does not exist");
             }
             _participants.Remove(participant);
         }
