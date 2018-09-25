@@ -25,7 +25,7 @@ namespace Tutoring.Infrastructure.Repositories
 
         public async Task<IEnumerable<Participant>> GetAllForCourseAsync(Guid courseId)
         {
-            var participants = _participants.Where(c => c.Courses.Any(x => x.Id == courseId));
+            var participants = _participants.Where(c => c.Tutorings.Any(x => x.Id == courseId));
 
             return await Task.FromResult(participants);
         }
