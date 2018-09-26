@@ -54,6 +54,10 @@ namespace Tutoring.Infrastructure.Services
         public async Task<LeaderDto> GetAsync(Guid userId)
         {
             var leader = await _leaderRepository.GetAsync(userId);
+            if(leader == null)
+            {
+                throw new Exception($"Leader with user id: '{userId}' can not be found.");
+            }
             return _mapper.Map<Leader, LeaderDto>(leader);
         }
     }

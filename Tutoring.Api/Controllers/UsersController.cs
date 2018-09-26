@@ -19,6 +19,7 @@ namespace Tutoring.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetAllAsync()
         {
             var users = await _userService.BrowseAsync();
@@ -43,7 +44,7 @@ namespace Tutoring.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateUser command)
         {
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
             return Created($"api/users/{command.Email}", new object());
         }
     }

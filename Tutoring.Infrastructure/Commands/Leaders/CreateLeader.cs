@@ -2,8 +2,8 @@
 
 namespace Tutoring.Infrastructure.Commands.Leaders
 {
-    public class CreateLeader : ICommand
+    public class CreateLeader : AuthenticatedCommandBase
     {
-        public Guid UserId { get; set; }
+
     }
 }

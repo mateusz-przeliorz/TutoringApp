@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Tutoring.Infrastructure.Commands.Users
 {
-    public class ChangeUserPassword : ICommand
+    public class ChangeUserPassword : AuthenticatedCommandBase
     {
         public string Email { get; set; }
         public string NewPassword { get; set; }

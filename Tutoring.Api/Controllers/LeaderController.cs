@@ -22,7 +22,7 @@ namespace Tutoring.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody]CreateLeader command)
         {
-            await CommandDispatcher.DispatchAsync(command);
+            await DispatchAsync(command);
                 
             return Created($"drivers/{command.UserId}", null);
         }
@@ -31,10 +31,7 @@ namespace Tutoring.Api.Controllers
         public async Task<IActionResult> GetAsync(Guid id)
         {
             var leader = await _leaderService.GetAsync(id);
-            if (leader == null)
-            {
-                return NotFound();
-            }
+          
             return Json(leader);
         }
     }

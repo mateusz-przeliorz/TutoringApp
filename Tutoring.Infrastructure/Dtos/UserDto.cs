@@ -10,7 +10,7 @@ namespace Tutoring.Infrastructure.Dtos
         public string Username { get;  set; }
         public string City { get; set; }
         public string Role { get; set; }
-        public DateTime UpdatedAt { get; protected set; }
+        public DateTime UpdatedAt { get;  set; }
         public DateTime CreatedAt { get;  set; }
     }
 }

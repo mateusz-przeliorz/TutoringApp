@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Threading.Tasks;
 using Tutoring.Infrastructure.Commands;
-using Tutoring.Infrastructure.Commands.Users;
+using Tutoring.Infrastructure.Commands.Accounts;
 using Tutoring.Infrastructure.Extensions;
 using Tutoring.Infrastructure.Services;
 
@@ -25,7 +26,11 @@ namespace Tutoring.Infrastructure.Handlers.Users
         {
             await _userService.LoginAsync(command.Email, command.Password);
             var user = await _userService.GetAsync(command.Email);
-            var jwt = _jwtHandler.CreateToken(command.Email, user.Role);
+            if(user == null)
+            {
+                throw new Exception($"User with user email: '{command.Email}' can not be found.");
+            }
+            var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
             _memoryCache.SetJwt(command.TokenId, jwt);
         }
     }

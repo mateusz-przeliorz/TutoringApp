@@ -17,10 +17,11 @@ namespace Tutoring.Api.Controllers
             _jwtHandler = jwtHandler;
         }
 
+
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]ChangeUserPassword command)
         {
-                await CommandDispatcher.DispatchAsync(command);
+                await DispatchAsync(command);
                 return Created($"api/account/{command.Email}", null);
         }
     }
