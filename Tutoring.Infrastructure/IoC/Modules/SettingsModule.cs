@@ -21,6 +21,9 @@ namespace Tutoring.Infrastructure.IoC.Modules
 
             builder.RegisterInstance(_configuration.GetSettings<JwtSettings>())
                                        .SingleInstance();
+
+            builder.RegisterInstance(_configuration.GetSettings<EmailSenderSettings>())
+                                       .SingleInstance();
         }
     }
 }
