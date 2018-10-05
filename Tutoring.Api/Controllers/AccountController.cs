@@ -9,20 +9,27 @@ namespace Tutoring.Api.Controllers
 {
     public class AccountController : ApiBaseController
     {
-        private readonly IJwtHandler _jwtHandler;
+        private readonly IUserService _userService;
 
-        public AccountController(ICommandDispatcher commandDispatcher, IJwtHandler jwtHandler) 
+        public AccountController(ICommandDispatcher commandDispatcher, IUserService userService) 
                     : base(commandDispatcher)
         {
-            _jwtHandler = jwtHandler;
+            _userService = userService;
         }
-
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]ChangeUserPassword command)
         {
                 await DispatchAsync(command);
                 return Created($"api/account/{command.Email}", null);
+        }
+
+        [HttpGet]
+        [Route("GenerateNewPassword")]
+        public async Task<IActionResult> Get()
+        {
+            await _userService.SendEmailWithNewUserPasswordAsync(UserId);
+            return Ok();
         }
     }
 }

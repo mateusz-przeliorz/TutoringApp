@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,17 +16,35 @@ namespace Tutoring.Infrastructure.Services
         {
             _emailSenderSettings = emailSenderSettings;
         }
-        public Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            string toEmail = string.IsNullOrEmpty(email) 
+            try
+            {
+                string toEmail = string.IsNullOrEmpty(email)
                                  ? _emailSenderSettings.ToEmail : email;
 
-            MailMessage mail = new MailMessage()
+                MailMessage mail = new MailMessage()
+                {
+                    From = new MailAddress(_emailSenderSettings.UsernameEmail, "Jan Kowalski")
+                };
+
+                mail.To.Add(new MailAddress(toEmail));
+                mail.Subject = "Personal Management System - " + subject;
+                mail.Body = message;
+                mail.IsBodyHtml = true;
+                mail.Priority = MailPriority.High;
+
+                using (SmtpClient smtp = new SmtpClient(_emailSenderSettings.PrimaryDomain, _emailSenderSettings.PrimaryPort))
+                {
+                    smtp.Credentials = new NetworkCredential(_emailSenderSettings.UsernameEmail, _emailSenderSettings.UsernamePassword);
+                    smtp.EnableSsl = true;
+                    await smtp.SendMailAsync(mail);
+                }
+            }
+            catch (Exception ex)
             {
-
-            };
-
-            return Task.FromResult(0);
+                //todo
+            }
         }
     }
 }

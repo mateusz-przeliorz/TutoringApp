@@ -18,6 +18,5 @@ namespace Tutoring.Infrastructure.Settings
 
         public string ToEmail { get; set; }
 
-        public string CcEmail { get; set; }
     }
 }
