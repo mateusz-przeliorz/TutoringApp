@@ -16,6 +16,7 @@ namespace Tutoring.Infrastructure.Services
         {
             _emailSenderSettings = emailSenderSettings;
         }
+
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             try

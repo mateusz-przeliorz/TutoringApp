@@ -10,7 +10,7 @@ namespace Tutoring.Infrastructure.Services
         Task RegisterAsync(Guid userId, string email, string username, string password, string city, string role);
         Task LoginAsync(string email, string password);
         Task ChangeUserPasswordAsync(string email, string newPassword);
-        Task SendEmailWithNewUserPasswordAsync(Guid userId);
+        Task SendEmailWithNewUserPasswordAsync(string email);
         Task<UserDto> GetAsync(string email);
         Task<IEnumerable<UserDto>> BrowseAsync();
         string GenerateUserNewPassword();

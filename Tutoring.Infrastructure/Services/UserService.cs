@@ -34,6 +34,7 @@ namespace Tutoring.Infrastructure.Services
         public async Task ChangeUserPasswordAsync(string email, string newPassword)
         {
             var user = await _userRepository.GetAsync(email);
+
             var salt = _encrypter.GetSalt(newPassword);
             var hash = _encrypter.GetHash(newPassword, salt);
             user.SetPassword(hash);
@@ -87,15 +88,21 @@ namespace Tutoring.Infrastructure.Services
             await _userRepository.AddAsync(user);
         }
 
-        public async Task SendEmailWithNewUserPasswordAsync(Guid userId)
+        public async Task SendEmailWithNewUserPasswordAsync(string email)
         {
-            var user = await _userRepository.GetAsync(userId);
+            var user = await _userRepository.GetAsync(email); 
+
+            if(user == null)
+            {
+                throw new Exception($"User with email: '{email}' can not be found.");
+            }
+
             var newPassword = GenerateUserNewPassword();
             var message = $"Operacja generowania nowego hasła powiodła się sukcesem. Nowe hasło: '{newPassword}'.";
             var subject = "TutoringApp - Wygenerowano nowe hasło";
 
-            await ChangeUserPasswordAsync(user.Email, newPassword);
-            await _emailSender.SendEmailAsync(user.Email, subject, message);
+            await ChangeUserPasswordAsync(email, newPassword);
+            await _emailSender.SendEmailAsync(email, subject, message);
         }
 
         public string GenerateUserNewPassword()
