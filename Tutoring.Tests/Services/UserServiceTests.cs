@@ -17,10 +17,12 @@ namespace Tutoring.Tests.Services
             var userRepositoryMock = new Mock<IUserRepository>();
             var mapperMock = new Mock<IMapper>();
             var encrypterMock = new Mock<IEncrypter>();
+            var emailSenderMock = new Mock<IEmailSender>();
+
             encrypterMock.Setup(x => x.GetSalt(It.IsAny<string>())).Returns("hash");
             encrypterMock.Setup(x => x.GetHash(It.IsAny<string>(), It.IsAny<string>())).Returns("salt");
 
-            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object);
+            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object, emailSenderMock.Object);
             await userService.RegisterAsync(Guid.NewGuid(), "user1@test.com", "user", "secret", "Wroclaw", "user");
 
             userRepositoryMock.Verify(x => x.AddAsync(It.IsAny<User>()), Times.Once);
@@ -32,7 +34,10 @@ namespace Tutoring.Tests.Services
             var userRepositoryMock = new Mock<IUserRepository>();
             var mapperMock = new Mock<IMapper>();
             var encrypterMock = new Mock<IEncrypter>();
-            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object);
+            var emailSenderMock = new Mock<IEmailSender>();
+
+            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object, emailSenderMock.Object);
+
             await userService.GetAsync("user1@email.com");
             var user = new User(Guid.NewGuid(),"user1@email.com", "user1", "secret", "salt", "Wroclaw", "user");
 
@@ -46,7 +51,10 @@ namespace Tutoring.Tests.Services
             var userRepositoryMock = new Mock<IUserRepository>();
             var mapperMock = new Mock<IMapper>();
             var encrypterMock = new Mock<IEncrypter>();
-            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object);
+            var emailSenderMock = new Mock<IEmailSender>();
+
+            var userService = new UserService(userRepositoryMock.Object, mapperMock.Object, encrypterMock.Object, emailSenderMock.Object);
+
             await userService.GetAsync("user@email.com");
 
             userRepositoryMock.Setup(x => x.GetAsync("user@email.com")).ReturnsAsync(() => null);
