@@ -11,7 +11,7 @@ namespace Tutoring.Api.Controllers
     {
         private readonly IUserService _userService;
 
-        public AccountController(ICommandDispatcher commandDispatcher, IUserService userService) 
+        public AccountController(ICommandDispatcher commandDispatcher, IUserService userService)
                     : base(commandDispatcher)
         {
             _userService = userService;
@@ -20,15 +20,14 @@ namespace Tutoring.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]ChangeUserPassword command)
         {
-                await DispatchAsync(command);
-                return Created($"api/account/{command.Email}", null);
+            await DispatchAsync(command);
+            return Created($"api/account/{command.Email}", null);
         }
 
-        [HttpGet]
-        [Route("GenerateNewPassword")]
-        public async Task<IActionResult> Get()
+        [HttpGet("sendPassword/{email}")]
+        public async Task<IActionResult> Get(string email)
         {
-            await _userService.SendEmailWithNewUserPasswordAsync(UserId);
+            await _userService.SendEmailWithNewUserPasswordAsync(email);
             return Ok();
         }
     }
