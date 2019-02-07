@@ -5,6 +5,7 @@ namespace Tutoring.Core.Domain
 {
     public class CourseDetails
     {
+        public Guid Id { get; protected set; }
         public string Field { get; protected set; }
         public string Subject { get; set; }
         public string Level { get; protected set; }
@@ -15,12 +16,17 @@ namespace Tutoring.Core.Domain
 
         protected CourseDetails(string field, string level, string subject)
         {
+            SetId();
             SetField(field);
             SetLevel(level);
             SetSubject(subject);
         }
 
-       
+
+        public void SetId()
+        {
+            Id = Guid.NewGuid();
+        }
 
         public static CourseDetails Create(string field, string level, string subject)
         {
